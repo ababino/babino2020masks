@@ -43,8 +43,8 @@ class NYSAPI:
         if 'Date' in df.columns: df['Date'] = pd.to_datetime(df['Date'])
         return df
 
-    def get_all_data_state_wide(self, min_date='2020-03-15'):
-        '''Gets state wide aggregated data.'''
+    def get_all_data_statewide(self, min_date='2020-03-15'):
+        '''Gets statewide aggregated data.'''
         df = self.get_all_data_nice()
         assert 'Date' in df.columns, 'data do not have Date column'
         df['date'] = df['Date']
