@@ -1,6 +1,7 @@
 {
   "babino2020masks": {
     "Overview": "/",
-    "Core": "core.html"
+    "Core": "core.html",
+    "LASSO": "lasso.html"
   }
 }

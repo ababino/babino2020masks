@@ -12,14 +12,20 @@ This is a refactored version of the original [code](https://github.com/ababino/c
 
 ```python
 ny = NYSAPI()
-df = ny.get_all_data_state_wide()
+df = ny.get_all_data_statewide()
 ```
 
 ```python
-ax = df.plot.scatter(x='Date', y='Odds', figsize=(10, 7), logy=True);
+lics = LassoICSelector(df['Odds'], 'bic')
+lics.fit_best_alpha()
+df['Odds_hat'], df['Odds_l'], df['Odds_u'] = lics.odds_hat_l_u()
+```
+
+```python
+ax = plot_data_and_fit(df, 'Date', 'Odds', 'Odds_hat', 'Odds_l', 'Odds_u', figsize=(10, 7))
 ax.set_title(f'{df.tail(1).Date[0]:%B %d, %Y}, Positivity Odds:{df.tail(1).Odds[0]:2.3}');
 ```
 
 
-![png](docs/images/output_5_0.png)
+![png](docs/images/output_6_0.png)
 

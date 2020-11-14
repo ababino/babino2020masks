@@ -12,6 +12,9 @@ entries:
     - output: web,pdf
       title: Core
       url: core.html
+    - output: web,pdf
+      title: LASSO
+      url: lasso.html
     output: web
     title: babino2020masks
   output: web
