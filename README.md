@@ -13,7 +13,7 @@ This is a refactored version of the original [code](https://github.com/ababino/c
 ### Gather data
 
 ```python
-ny = NYSAPI()
+ny = API(api_settings['NYS'][:2])
 df = ny.get_all_data_statewide()
 ```
 
@@ -39,7 +39,6 @@ lics.fit_best_alpha()
 ```python
 sdf['Fit'], sdf['Odds_l'], sdf['Odds_u'] = lics.odds_hat_l_u()
 ax = plot_data_and_fit(sdf, 'Date', 'Odds', 'Fit', 'Odds_l', 'Odds_u', figsize=(10, 7))
-
 ```
 
 

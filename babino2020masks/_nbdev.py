@@ -3,7 +3,10 @@
 __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 
 index = {"GAMMA": "00_core.ipynb",
-         "NYSAPI": "00_core.ipynb",
+         "api_settings": "00_core.ipynb",
+         "nofilt": "00_core.ipynb",
+         "API": "00_core.ipynb",
+         "massachusetts_getter": "00_core.ipynb",
          "NEW_YORK_EVENTS": "00_core.ipynb",
          "palette": "00_core.ipynb",
          "plot_data_and_fit": "00_core.ipynb",
