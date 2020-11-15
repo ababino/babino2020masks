@@ -7,7 +7,9 @@ index = {"GAMMA": "00_core.ipynb",
          "NEW_YORK_EVENTS": "00_core.ipynb",
          "plot_data_and_fit": "00_core.ipynb",
          "FirstInChunkSelector": "01_lasso.ipynb",
-         "LassoICSelector": "01_lasso.ipynb"}
+         "LassoICSelector": "01_lasso.ipynb",
+         "LassoICSelector.odds_hat_l_u": "01_lasso.ipynb",
+         "LassoICSelector.rt": "01_lasso.ipynb"}
 
 modules = ["core.py",
            "lasso.py"]

@@ -71,6 +71,6 @@ NEW_YORK_EVENTS = L('03-16-2020 20:00',
 @delegates(plt.plot)
 def plot_data_and_fit(df, x, y, y_hat, yl, yu, logy=True, **kwargs):
     ax = df.plot(x=x, y=y_hat, logy=logy, **kwargs);
-    ax = df.plot.scatter(x=x, y=y, logy=logy, ax=ax);
-    plt.fill_between(df.index, df.Odds_l, df.Odds_u, color='b', alpha=0.2);
+    if y: df.plot.scatter(x=x, y=y, logy=logy, ax=ax);
+    plt.fill_between(df.index, df[yl], df[yu], color='b', alpha=0.2);
     return ax

@@ -14,8 +14,7 @@ from .core import *
 class FirstInChunkSelector(object):
     '''Selects first element from each non zero chunk.'''
 
-    def __init__(self, clf):
-        self.clf, self.coef, self.mask = clf, None, None
+    def __init__(self, clf): self.clf, self.coef, self.mask = clf, None, None
 
     def select_coef(self):
         n_features = len(self.clf.coef_)
@@ -40,75 +39,48 @@ class FirstInChunkSelector(object):
 
 # Cell
 class LassoICSelector(object):
-    """LASSO regression with FirstInChunkSelector."""
-
     def __init__(self, y, criterion, alpha=0.05):
+        store_attr()
         self.lasso = linear_model.LassoLars(alpha=0, max_iter=100000)
-        self.criterion = criterion
         self.selector = FirstInChunkSelector(self.lasso)
         self.OLS = sm.OLS
-        self.X, self.y = self.liniarize_Xy(y)
-        self.ols = self.OLS(self.y, self.X)
-        self.ols_results = None
+        self.X, self.y = self.linearize_Xy(y)
         self.final_ols = False
-        self.alpha = alpha
 
-    def liniarize_Xy(self, y):
+    def linearize_Xy(self, y):
         y = np.log(y)
         X = np.tri(len(y))
         X = np.cumsum(X, axis=0)[:, 1:]
         return X[~np.isnan(y), :], maybe_attr(y[~np.isnan(y)], 'values')
 
     def transform_to_ols(self, X):
-        '''Selects only the features of  that X are used by OLS.
-        Also, adds a coloumn with ones for the intercept.
-        '''
         X_new = self.selector.transform(X)
         if self.final_ols: X_new = X[:, self.support]
         return np.hstack([X_new, np.ones((X_new.shape[0], 1))])
 
-    def fit(self, X, y):
-        '''Selects features and fits the OLS.'''
-
-        # select features
-        X_new = self.transform_to_ols(X)
-
-        # fit ols
-        self.ols = self.OLS(y, X_new)
-        self.ols_results = self.ols.fit()
-
-        # iteratively remove non signicative variables and fit again
-        mask = self.ols_results.pvalues < self.alpha / len(self.ols_results.pvalues)
-        mask[0] = True
+    def fit(self, X, y, mask=None):
         Xnew = self.transform_to_ols(X)
+        if mask is None: mask = np.array([True]*Xnew.shape[1])
         Xnew = Xnew[:, mask]
-        self.support = self.selector.get_support()
         self.ols = self.OLS(y, Xnew)
         self.ols_results = self.ols.fit()
-        while any(self.ols_results.pvalues[1:] >= self.alpha / len(self.ols_results.pvalues)):
-            mask[mask] = (self.ols_results.pvalues < self.alpha / len(self.ols_results.pvalues))
-            mask[0] = True
-            Xnew = self.transform_to_ols(X)
-            Xnew = Xnew[:, mask]
-            self.support = self.selector.get_support()
-            self.ols = self.OLS(y, Xnew)
-            self.ols_results = self.ols.fit()
-
+        mask[mask] = (self.ols_results.pvalues < self.alpha / len(self.ols_results.pvalues))
+        mask[0] = True
+        if any(self.ols_results.pvalues[1:] >= self.alpha / len(self.ols_results.pvalues)):
+            self.fit(X, y, mask=mask)
+        self.support = self.selector.get_support()
         self.support[self.support] = mask[:-1]
 
     def fit_best_alpha(self):
-        '''Returns the model with the lowest cirterion.'''
-        X, y = self.X, self.y
-        self.lasso.fit(X, y)
+        self.lasso.fit(self.X, self.y)
         alphas = self.lasso.alphas_
         self.criterions_ = np.zeros(len(alphas))
         self.log_liklehods = np.zeros(len(alphas))
 
-
         for i, alpha in enumerate(alphas):
             self.lasso.coef_ = self.lasso.coef_path_[:, i]
-            self.fit(X, y)
-            self.criterions_[i], self.log_liklehods[i] = self.get_criterion(self.ols.exog, y)
+            self.fit(self.X, self.y)
+            self.criterions_[i], self.log_liklehods[i] = self.get_criterion(self.ols.exog, self.y)
 
         # we use a list of tuples to find the minimum cirterion value.
         # If there are ties, we use the maximum alpha value.
@@ -116,52 +88,72 @@ class LassoICSelector(object):
         criterion, alpha, idx = min(criterions_idx, key=lambda x: (x[0], -x[1]))
         self.lasso.coef_ = self.lasso.coef_path_[:, idx]
         self.lasso.alpha = alpha
-        self.fit(X, y)
+        self.fit(self.X, self.y)
         self.final_ols = True
 
-    def predict(self, X):
-        '''Predicts y useing the OLS fit.'''
-        return self.ols.predict(self.ols_results.params, X)
+    def predict(self, X): return self.ols.predict(self.ols_results.params, X)
 
     def log_liklihood(self, X, y):
-        '''Computes the log liklihood assuming normally distributed errors.'''
-
-        eps64 = np.finfo('float64').eps
-
         # residuals
         R = y - self.predict(X)
         sigma2 = np.var(R)
-
         loglike = -0.5 * len(R) * np.log(sigma2)
         loglike -= 0.5 * len(R) * np.log(2*np.pi) - 0.5*len(R) + 0.5
         return loglike
 
     def get_criterion(self, X, y):
-        '''Computes AIC or BIC criterion.'''
-
         n_samples = X.shape[0]
-        if self.criterion == 'aic':
-            K = 2  # AIC
-        elif self.criterion == 'bic':
-            K = np.log(n_samples)
-        else:
-            raise ValueError('criterion should be either bic or aic')
+        if self.criterion == 'aic': K = 2
+        elif self.criterion == 'bic': K = np.log(n_samples)
+        else: raise ValueError('criterion should be either bic or aic')
 
         log_like = self.log_liklihood(X, y)
         df = X.shape[1]
-
         aic = K * df - 2*log_like
         self.criterion_ = aic
-
         return self.criterion_, log_like
 
-    def odds_hat_l_u(self):
-        Xols = self.transform_to_ols(self.X)
-        yhat = self.ols.predict(self.ols_results.params, Xols)
-        # from equation 5
-        odds_hat = np.exp(yhat)
-        # the error in yhat is
-        (yhat_std, yhat_l, yhat_u) = wls_prediction_std(self.ols_results, Xols)
-        oddshat_l = np.exp(yhat-2*yhat_std)
-        oddshat_u = np.exp(yhat+2*yhat_std)
-        return odds_hat, oddshat_l, oddshat_u
+# Cell
+add_docs(LassoICSelector, "LASSO regression with `FirstInChunkSelector`.",
+         linearize_Xy="Linearize y and creates X.",
+         transform_to_ols="Selects only the features of  that X are used by OLS. Also, adds a coloumn with ones for the intercept.",
+         fit="Selects features and fits the OLS.",
+         fit_best_alpha="Returns the model with the lowest cirterion.",
+         predict="Predicts y useing the OLS fit.",
+         log_liklihood="Computes the log liklihood assuming normally distributed errors.",
+         get_criterion="Computes AIC or BIC criterion.")
+
+
+# Cell
+@patch
+def odds_hat_l_u(self:LassoICSelector):
+    Xols = self.transform_to_ols(self.X)
+    yhat = self.ols.predict(self.ols_results.params, Xols)
+    # from equation 5
+    odds_hat = np.exp(yhat)
+    # the error in yhat is
+    (yhat_std, yhat_l, yhat_u) = wls_prediction_std(self.ols_results, Xols)
+    oddshat_l = np.exp(yhat-2*yhat_std)
+    oddshat_u = np.exp(yhat+2*yhat_std)
+    return odds_hat, oddshat_l, oddshat_u
+
+
+# Cell
+@patch
+def rt(self:LassoICSelector):
+    coef = np.zeros_like(self.y)
+    coef_std = L([None])*len(coef) # np.zeros_like(coef) * np.nan
+    ind = np.squeeze(np.argwhere(self.support))
+    coef[ind] = self.ols_results.params[:-1]
+    R = np.cumsum(coef)/GAMMA+1
+    cov = maybe_attr(self.ols_results.cov_params(), 'values')
+    stds = [np.sqrt(cov[:n, :n].sum()) for n in range(1, cov.shape[0])]
+    if len(stds)==1: stds = stds[0]
+    coef_std[list(ind)] = stds
+
+    # error propagation formula
+    Rstd = [c if c is None else c/GAMMA for c in coef_std]
+    for i in range(1, len(Rstd)): Rstd[i] = ifnone(Rstd[i], Rstd[i-1])
+    R_l = R - 2*np.array(Rstd)
+    R_u = R + 2*np.array(Rstd)
+    return R, R_l, R_u

@@ -16,14 +16,17 @@ df = ny.get_all_data_statewide()
 ```
 
 ```python
-lics = LassoICSelector(df['Odds'], 'bic')
-lics.fit_best_alpha()
-df['Odds_hat'], df['Odds_l'], df['Odds_u'] = lics.odds_hat_l_u()
+ax = plot_data_and_fit(sdf, 'Date', 'Odds', 'Odds_hat', 'Odds_l', 'Odds_u', figsize=(10, 7))
+ax.set_title(f'{df.tail(1).Date[0]:%B %d, %Y}, Positivity Odds:{df.tail(1).Odds[0]:2.3}');
 ```
 
+
+![png](docs/images/output_5_0.png)
+
+
 ```python
-ax = plot_data_and_fit(df, 'Date', 'Odds', 'Odds_hat', 'Odds_l', 'Odds_u', figsize=(10, 7))
-ax.set_title(f'{df.tail(1).Date[0]:%B %d, %Y}, Positivity Odds:{df.tail(1).Odds[0]:2.3}');
+sdf['R'], sdf['Rl'], sdf['Ru'] = lics.rt()
+ax = plot_data_and_fit(sdf, 'Date', None, 'R', 'Rl', 'Ru', figsize=(10, 7), logy=False)
 ```
 
 
