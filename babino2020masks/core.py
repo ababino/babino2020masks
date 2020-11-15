@@ -6,7 +6,7 @@ __all__ = ['GAMMA', 'api_settings', 'nofilt', 'API', 'massachusetts_getter', 'NE
 # Cell
 import os
 import io
-from zipfile import ZipFile
+from zipfile import ZipFile, BadZipFile
 from datetime import datetime, timedelta
 
 import pandas as pd
@@ -82,11 +82,18 @@ class API:
 
 # Cell
 def massachusetts_getter(url_base, usecols):
-    date_str = (datetime.today()-timedelta(1)).strftime('%B-%d-%Y').lower()
     settings = api_settings['Massachusetts']
-    url = url_base.format(date_str)
-    r = requests.get(url, allow_redirects=True)
-    zf = ZipFile(io.BytesIO(r.content))
+    # try today's file, if it fails try with yetarday's file.
+    try:
+        date_str = datetime.today().strftime('%B-%d-%Y').lower()
+        url = url_base.format(date_str)
+        r = requests.get(url, allow_redirects=True)
+        zf = ZipFile(io.BytesIO(r.content))
+    except BadZipFile:
+        date_str = (datetime.today()-timedelta(1)).strftime('%B-%d-%Y').lower()
+        url = url_base.format(date_str)
+        r = requests.get(url, allow_redirects=True)
+        zf = ZipFile(io.BytesIO(r.content))
     filename = L(zf.filelist).attrgot('filename').filter(Self.startswith('TestingByDate'))[0]
     csvf = zf.open(filename)
     if filename.split('.')[1]=='csv': df = pd.read_csv(csvf, usecols=susecols)
