@@ -45,7 +45,7 @@ ax = plot_data_and_fit(sdf, 'Date', 'Odds', 'Fit', 'Odds_l', 'Odds_u', figsize=(
 ![png](docs/images/output_10_0.png)
 
 
-### instantaneous reproduction number, $R_t$
+### Instantaneous reproduction number, $R_t$
 
 ```python
 sdf['R'], sdf['Rl'], sdf['Ru'] = lics.rt()
