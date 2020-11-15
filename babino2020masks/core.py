@@ -7,7 +7,7 @@ __all__ = ['GAMMA', 'api_settings', 'nofilt', 'API', 'massachusetts_getter', 'NE
 import os
 import io
 from zipfile import ZipFile
-from datetime import datetime
+from datetime import datetime, timedelta
 
 import pandas as pd
 import requests
@@ -82,9 +82,9 @@ class API:
 
 # Cell
 def massachusetts_getter(url_base, usecols):
-    date_str = datetime.today().strftime('%B-%d-%Y').lower()
+    date_str = (datetime.today()-timedelta(1)).strftime('%B-%d-%Y').lower()
     settings = api_settings['Massachusetts']
-    url = url_base.format(yesterday_str)
+    url = url_base.format(date_str)
     r = requests.get(url, allow_redirects=True)
     zf = ZipFile(io.BytesIO(r.content))
     filename = L(zf.filelist).attrgot('filename').filter(Self.startswith('TestingByDate'))[0]
