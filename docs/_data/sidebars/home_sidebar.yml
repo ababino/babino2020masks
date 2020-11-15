@@ -15,6 +15,9 @@ entries:
     - output: web,pdf
       title: LASSO
       url: lasso.html
+    - output: web,pdf
+      title: Counterfactual
+      url: counterfactual.html
     output: web
     title: babino2020masks
   output: web

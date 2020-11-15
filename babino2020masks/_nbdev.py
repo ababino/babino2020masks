@@ -5,14 +5,17 @@ __all__ = ["index", "modules", "custom_doc_links", "git_url"]
 index = {"GAMMA": "00_core.ipynb",
          "NYSAPI": "00_core.ipynb",
          "NEW_YORK_EVENTS": "00_core.ipynb",
+         "palette": "00_core.ipynb",
          "plot_data_and_fit": "00_core.ipynb",
          "FirstInChunkSelector": "01_lasso.ipynb",
          "LassoICSelector": "01_lasso.ipynb",
          "LassoICSelector.odds_hat_l_u": "01_lasso.ipynb",
-         "LassoICSelector.rt": "01_lasso.ipynb"}
+         "LassoICSelector.rt": "01_lasso.ipynb",
+         "LassoICSelector.counterfactual": "02_counterfactual.ipynb"}
 
 modules = ["core.py",
-           "lasso.py"]
+           "lasso.py",
+           "counterfactual.py"]
 
 doc_url = "https://ababino.github.io/babino2020masks/"
 

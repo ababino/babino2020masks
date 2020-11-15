@@ -8,7 +8,9 @@ This is a refactored version of the original [code](https://github.com/ababino/c
 
 `pip install babino2020masks`
 
-## Positivity Odds in NYS
+## How to use
+
+### Gather data
 
 ```python
 ny = NYSAPI()
@@ -16,19 +18,56 @@ df = ny.get_all_data_statewide()
 ```
 
 ```python
-ax = plot_data_and_fit(sdf, 'Date', 'Odds', 'Odds_hat', 'Odds_l', 'Odds_u', figsize=(10, 7))
+ax = plot_data_and_fit(df, 'Date', 'Odds', None, None, None, figsize=(10, 7))
 ax.set_title(f'{df.tail(1).Date[0]:%B %d, %Y}, Positivity Odds:{df.tail(1).Odds[0]:2.3}');
 ```
 
 
-![png](docs/images/output_5_0.png)
+![png](docs/images/output_6_0.png)
 
+
+### Fit the model
 
 ```python
-sdf['R'], sdf['Rl'], sdf['Ru'] = lics.rt()
-ax = plot_data_and_fit(sdf, 'Date', None, 'R', 'Rl', 'Ru', figsize=(10, 7), logy=False)
+sdf = df.loc[df.Date<='15-05-2020'].copy()
+lics = LassoICSelector(sdf['Odds'], 'bic')
+lics.fit_best_alpha()
+```
+
+### Positivity Odds in NYS
+
+```python
+sdf['Fit'], sdf['Odds_l'], sdf['Odds_u'] = lics.odds_hat_l_u()
+ax = plot_data_and_fit(sdf, 'Date', 'Odds', 'Fit', 'Odds_l', 'Odds_u', figsize=(10, 7))
+
 ```
 
 
-![png](docs/images/output_6_0.png)
+![png](docs/images/output_10_0.png)
+
+
+### instantaneous reproduction number, $R_t$
+
+```python
+sdf['R'], sdf['Rl'], sdf['Ru'] = lics.rt()
+ax = plot_data_and_fit(sdf, 'Date', None, 'R', 'Rl', 'Ru', figsize=(10, 7), logy=False, palette=[palette[1],palette[1]])
+```
+
+
+![png](docs/images/output_12_0.png)
+
+
+### Counterfactual Scenario without  Masks
+
+```python
+sdf['Cf. Odds'], sdf['cf_odds_l'], sdf['cf_odds_u'] = lics.counterfactual()
+```
+
+```python
+ax = plot_data_and_fit(sdf, 'Date', 'Odds', 'Fit', 'Odds_l', 'Odds_u', figsize=(10, 7))
+plot_data_and_fit(sdf, 'Date', None, 'Cf. Odds', 'cf_odds_l', 'cf_odds_u', palette=[palette[2],palette[2]], ax=ax);
+```
+
+
+![png](docs/images/output_15_0.png)
 
