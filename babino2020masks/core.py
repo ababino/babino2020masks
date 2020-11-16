@@ -145,7 +145,7 @@ colorblind = sns.palettes.color_palette('colorblind')
 def plot_data_and_fit(df, x, y, y_hat, yl, yu, logy=True, palette=None, ax=None, **kwargs):
     palette = ifnone(palette, sns.palettes.color_palette('colorblind'))
     if not ax: fig, ax = plt.subplots(**kwargs)
-    if y: df.plot.scatter(x=x, y=y, logy=logy, ax=ax, c=np.array(palette[0])[None,:], label=y)
+    if y: df.plot(x=x, y=y, logy=logy, ax=ax, c=palette[0], label=y, style='.')
     if y_hat: df.plot(x=x, y=y_hat, logy=logy, ax=ax, c=palette[1], label=y_hat)
     if yl: plt.fill_between(df.index, df[yl], df[yu], alpha=0.2, color=palette[1], label='95%CI');
     hl = ax.get_legend_handles_labels()
