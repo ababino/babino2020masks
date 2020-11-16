@@ -1,7 +1,7 @@
 name: update
 on:
   schedule:
-  - cron: '7 13 * * *'
+  - cron: '*/5 * * * *'
 jobs:
   build:
     runs-on: ubuntu-latest
@@ -17,6 +17,8 @@ jobs:
       run: |
         pip install nbdev jupyter
         pip install -e .
+    - name: install clean notebooks hook
+      run: nbdev_install_git_hooks
     - name: Update readme
       run: jupyter nbconvert --to notebook --execute --inplace index.ipynb
     - name: build docs
