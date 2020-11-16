@@ -70,3 +70,18 @@ plot_data_and_fit(sdf, 'Date', None, 'Cf. Odds', 'cf_odds_l', 'cf_odds_u', palet
 
 ![png](docs/images/output_15_0.png)
 
+
+```python
+from datetime import datetime
+```
+
+```python
+datetime.today()
+```
+
+
+
+
+    datetime.datetime(2020, 11, 16, 12, 3, 28, 842571)
+
+
