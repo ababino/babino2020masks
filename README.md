@@ -71,5 +71,5 @@ plot_data_and_fit(sdf, 'Date', None, 'Cf. Odds', 'cf_odds_l', 'cf_odds_u', palet
 ![png](docs/images/output_15_0.png)
 
 
-    Last updated on 11/16/2020 14:24:58
+    Last updated on 11/17/2020 13:18:12
 
