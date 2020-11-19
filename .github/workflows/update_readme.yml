@@ -25,5 +25,5 @@ jobs:
       run: nbdev_build_docs
     - uses: stefanzweifel/git-auto-commit-action@v4
       with:
-        commit_message: authomatic readme update
+        commit_message: automatic readme update
         branch: master
