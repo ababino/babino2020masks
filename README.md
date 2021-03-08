@@ -1,5 +1,5 @@
 # Masks and COVID-19: a causal framework for imputing value to public-health interventions
-> Code to reproduce <a href='https://arxiv.org/abs/2006.05532'>Masks and COVID-19</a>.
+> Code to reproduce <a href='https://www.nature.com/articles/s41598-021-84679-8#MOESM1'>Masks and COVID-19</a>.
 
 
 This is a refactored version of the original [code](https://github.com/ababino/corona). 
