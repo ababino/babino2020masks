@@ -65,8 +65,8 @@ class LassoICSelector(object):
         self.ols = self.OLS(y, Xnew)
         self.ols_results = self.ols.fit()
         mask[mask] = (self.ols_results.pvalues < self.alpha / len(self.ols_results.pvalues))
-        mask[0] = True
-        if any(self.ols_results.pvalues[1:] >= self.alpha / len(self.ols_results.pvalues)):
+        mask[-1] = True
+        if any(self.ols_results.pvalues[:-1] >= self.alpha / len(self.ols_results.pvalues)):
             self.fit(X, y, mask=mask)
         self.support = self.selector.get_support()
         self.support[self.support] = mask[:-1]
