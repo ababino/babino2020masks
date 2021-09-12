@@ -17,6 +17,10 @@ ny = API(api_settings['NYS'][:2], **api_settings['NYS'][2])
 df = ny.get_all_data_statewide()
 ```
 
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:78: FutureWarning: Dropping invalid columns in DataFrameGroupBy.add is deprecated. In a future version, a TypeError will be raised. Before calling .add, select only columns which should be valid for the function.
+      df = df.groupby('date').sum()
+
+
 ```python
 ax = plot_data_and_fit(df, 'Date', 'Odds', None, None, None, figsize=(10, 7))
 ax.set_title(f'{df.tail(1).Date[0]:%B %d, %Y}, Positivity Odds:{df.tail(1).Odds[0]:2.3}');
@@ -71,5 +75,5 @@ plot_data_and_fit(sdf, 'Date', None, 'Cf. Odds', 'cf_odds_l', 'cf_odds_u', palet
 ![png](docs/images/output_15_0.png)
 
 
-    Last updated on 07/03/2021 13:25:15
+    Last updated on 09/12/2021 13:26:32
 
