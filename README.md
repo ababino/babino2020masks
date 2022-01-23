@@ -17,6 +17,24 @@ ny = API(api_settings['NYS'][:2], **api_settings['NYS'][2])
 df = ny.get_all_data_statewide()
 ```
 
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+      for o in self.iter_data(): df = df.append(o)
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+      for o in self.iter_data(): df = df.append(o)
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+      for o in self.iter_data(): df = df.append(o)
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+      for o in self.iter_data(): df = df.append(o)
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+      for o in self.iter_data(): df = df.append(o)
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+      for o in self.iter_data(): df = df.append(o)
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+      for o in self.iter_data(): df = df.append(o)
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+      for o in self.iter_data(): df = df.append(o)
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+      for o in self.iter_data(): df = df.append(o)
     /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:78: FutureWarning: Dropping invalid columns in DataFrameGroupBy.add is deprecated. In a future version, a TypeError will be raised. Before calling .add, select only columns which should be valid for the function.
       df = df.groupby('date').sum()
 
@@ -38,6 +56,8 @@ lics = LassoICSelector(sdf['Odds'], 'bic')
 lics.fit_best_alpha()
 ```
 
+    /opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/pandas/core/arraylike.py:52: UserWarning: Parsing '15-05-2020' in DD/MM/YYYY format. Provide format or specify infer_datetime_format=True for consistent parsing.
+      return self._cmp_method(other, operator.le)
     /opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/sklearn/linear_model/_base.py:133: FutureWarning: The default of 'normalize' will be set to False in version 1.2 and deprecated in version 1.4.
     If you wish to scale the data, use Pipeline with a StandardScaler in a preprocessing stage. To reproduce the previous behavior:
     
@@ -91,5 +111,5 @@ plot_data_and_fit(sdf, 'Date', None, 'Cf. Odds', 'cf_odds_l', 'cf_odds_u', palet
 ![png](docs/images/output_15_0.png)
 
 
-    Last updated on 01/22/2022 13:24:12
+    Last updated on 01/23/2022 13:24:46
 
