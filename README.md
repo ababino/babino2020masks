@@ -45,7 +45,9 @@ ax.set_title(f'{df.tail(1).Date[0]:%B %d, %Y}, Positivity Odds:{df.tail(1).Odds[
 ```
 
 
+    
 ![png](docs/images/output_6_0.png)
+    
 
 
 ### Fit the model
@@ -82,7 +84,9 @@ ax = plot_data_and_fit(sdf, 'Date', 'Odds', 'Fit', 'Odds_l', 'Odds_u', figsize=(
 ```
 
 
+    
 ![png](docs/images/output_10_0.png)
+    
 
 
 ### Instantaneous reproduction number, $R_t$
@@ -93,7 +97,9 @@ ax = plot_data_and_fit(sdf, 'Date', None, 'R', 'Rl', 'Ru', figsize=(10, 7), logy
 ```
 
 
+    
 ![png](docs/images/output_12_0.png)
+    
 
 
 ### Counterfactual Scenario without  Masks
@@ -108,8 +114,10 @@ plot_data_and_fit(sdf, 'Date', None, 'Cf. Odds', 'cf_odds_l', 'cf_odds_u', palet
 ```
 
 
+    
 ![png](docs/images/output_15_0.png)
+    
 
 
-    Last updated on 02/14/2022 13:26:29
+    Last updated on 02/15/2022 13:26:14
 
