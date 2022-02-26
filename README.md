@@ -35,6 +35,8 @@ df = ny.get_all_data_statewide()
       for o in self.iter_data(): df = df.append(o)
     /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
       for o in self.iter_data(): df = df.append(o)
+    /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:63: FutureWarning: The frame.append method is deprecated and will be removed from pandas in a future version. Use pandas.concat instead.
+      for o in self.iter_data(): df = df.append(o)
     /home/runner/work/babino2020masks/babino2020masks/babino2020masks/core.py:78: FutureWarning: Dropping invalid columns in DataFrameGroupBy.add is deprecated. In a future version, a TypeError will be raised. Before calling .add, select only columns which should be valid for the function.
       df = df.groupby('date').sum()
 
@@ -119,5 +121,5 @@ plot_data_and_fit(sdf, 'Date', None, 'Cf. Odds', 'cf_odds_l', 'cf_odds_u', palet
     
 
 
-    Last updated on 02/25/2022 13:27:30
+    Last updated on 02/26/2022 13:25:41
 
