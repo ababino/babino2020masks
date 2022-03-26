@@ -10,13 +10,13 @@ entries:
       title: Overview
       url: /
     - output: web,pdf
-      title: core
+      title: Core
       url: core.html
     - output: web,pdf
       title: LASSO
       url: lasso.html
     - output: web,pdf
-      title: counterfactual
+      title: Counterfactual
       url: counterfactual.html
     output: web
     title: babino2020masks
