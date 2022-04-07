@@ -125,5 +125,5 @@ plot_data_and_fit(sdf, 'Date', None, 'Cf. Odds', 'cf_odds_l', 'cf_odds_u', palet
     
 
 
-    Last updated on 04/06/2022 13:36:04
+    Last updated on 04/07/2022 13:34:56
 
