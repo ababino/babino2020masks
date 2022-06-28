@@ -66,9 +66,9 @@ lics = LassoICSelector(sdf['Odds'], 'bic')
 lics.fit_best_alpha()
 ```
 
-    /opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/pandas/core/arraylike.py:52: UserWarning: Parsing '15-05-2020' in DD/MM/YYYY format. Provide format or specify infer_datetime_format=True for consistent parsing.
+    /opt/hostedtoolcache/Python/3.8.13/x64/lib/python3.8/site-packages/pandas/core/arraylike.py:52: UserWarning: Parsing '15-05-2020' in DD/MM/YYYY format. Provide format or specify infer_datetime_format=True for consistent parsing.
       return self._cmp_method(other, operator.le)
-    /opt/hostedtoolcache/Python/3.8.12/x64/lib/python3.8/site-packages/sklearn/linear_model/_base.py:133: FutureWarning: The default of 'normalize' will be set to False in version 1.2 and deprecated in version 1.4.
+    /opt/hostedtoolcache/Python/3.8.13/x64/lib/python3.8/site-packages/sklearn/linear_model/_base.py:133: FutureWarning: The default of 'normalize' will be set to False in version 1.2 and deprecated in version 1.4.
     If you wish to scale the data, use Pipeline with a StandardScaler in a preprocessing stage. To reproduce the previous behavior:
     
     from sklearn.pipeline import make_pipeline
@@ -127,5 +127,5 @@ plot_data_and_fit(sdf, 'Date', None, 'Cf. Odds', 'cf_odds_l', 'cf_odds_u', palet
     
 
 
-    Last updated on 06/27/2022 13:50:38
+    Last updated on 06/28/2022 13:47:13
 
